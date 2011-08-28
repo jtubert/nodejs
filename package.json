@@ -4,5 +4,5 @@
 	"scripts": {
 	"start": "node server.js"
 	},
-	"dependencies": {"socketio" : "0.7"}
+	"dependencies": {"socket.io" : "0.7"}
 }
