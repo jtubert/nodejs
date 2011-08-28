@@ -1,0 +1,8 @@
+{
+	"name": "my-app",
+	"version": "1.0.0",
+	"scripts": {
+	"start": "node server.js"
+	},
+	"dependencies": {"socketio" : "0.7"}
+}
