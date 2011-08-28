@@ -7,11 +7,11 @@ app.listen(80);
 
 
 function handler (req, res) {
-  fs.readFile(__dirname + '/index.html',
+  fs.readFile(__dirname + '/client.html',
   function (err, data) {
     if (err) {
       res.writeHead(500);
-      return res.end('Error loading index.html');
+      return res.end('Error loading client.html');
     }
 
     res.writeHead(200);
@@ -21,12 +21,8 @@ function handler (req, res) {
 
 io.sockets.on('connection', function (socket) {
   
-  socket.on('move', function (data) {
-    socket.broadcast.emit('move', { draw: data });
-  });
-
-  socket.on('down', function (data) {
-    socket.broadcast.emit('down', { draw: data });
+  socket.on('news', function (data) {
+    socket.broadcast.emit('news', { hello: data });
   });
 });
 
