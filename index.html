@@ -18,6 +18,13 @@
 		var ctxRemote;
 		var lineColor = "#000000";
 		var lineColorRemote = "#000000";
+		
+		//socket.socket.sessionid
+		
+		function sendMessage(name,object){
+			console.log(socket.socket.sessionid+" - sending message: "+name);
+			socket.emit(name, object);
+		}
 
 		function init(){
 			drawLayer = document.getElementById('drawLayer');		
@@ -53,7 +60,7 @@
 			ctx.moveTo(x,y);
 			drawLayer.addEventListener('mousemove', onMove, false);	
 			
-			socket.emit('down', { x:x,y:y,lc:lineColor});	
+			sendMessage('down', { x:x,y:y,lc:lineColor});	
 		}
 		
 		function onMouseDownRemote(x,y,lc){
@@ -82,7 +89,7 @@
 			ctx.lineTo(x,y);						
 			ctx.stroke();
 			
-			socket.emit('move', {x:x,y:y});
+			sendMessage('move', {x:x,y:y});
 									
 		}
 		
