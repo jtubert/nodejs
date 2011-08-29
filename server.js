@@ -26,20 +26,29 @@ io.sockets.on('connection', function (socket) {
 	
 	if(!users[socket.id]){
 		users[socket.id] = socket;
-		console.log("-----------------length: "+io.sockets.clients().length+" / "+socket.id);
-	}	
+		//console.log("-----------------length: "+io.sockets.clients().length+" / "+socket.id);
+	}
+	
+	socket.on('setName', function (name) {
+		console.log("-----------------name: "+name);  
+		socket.set("nickname",name);	
+	});
+	
+	var nickname = socket.get("nickname");
+	
   
 	socket.on('move', function (data) {
-	  socket.broadcast.emit('move', { draw: data });
+	  socket.broadcast.emit('move', { draw: data,nickname:nickname });
 	});
 
 	socket.on('down', function (data) {
-	  socket.broadcast.emit('down', { draw: data });
+	  socket.broadcast.emit('down', { draw: data,nickname:nickname });
 	});
 
 	socket.on('erase', function (data) {
-	socket.broadcast.emit('erase', { draw: data });
-	});
+		socket.broadcast.emit('erase', { draw: data,nickname:nickname });
+	});	
+	
 });
 
 

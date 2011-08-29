@@ -62,7 +62,7 @@
 			sendSocketMessage('down', { x:x,y:y,lc:lineColor});	
 		}
 		
-		function onMouseDownRemote(x,y,lc){
+		function onMouseDownRemote(x,y,lc,nickname){
 			ctxRemote.lineWidth = 3;
 			ctxRemote.strokeStyle = lc;
 			ctxRemote.beginPath();
@@ -72,10 +72,12 @@
 		
 
 		function eraseAll(){
-			ctx.clearRect(0,0,500,500);
-			
-			sendSocketMessage('erase', {});
-			//console.log();				
+			ctx.clearRect(0,0,500,500);			
+			sendSocketMessage('erase', {});						
+		}
+		
+		function eraseAllRemote(){
+			ctxRemote.clearRect(0,0,500,500);
 		}			
 
 
@@ -94,7 +96,7 @@
 									
 		}
 		
-		function onMoveRemote(x, y){			
+		function onMoveRemote(x, y,nickname){			
 			ctxRemote.lineTo(x,y);						
 			ctxRemote.stroke();
 		}
@@ -121,6 +123,23 @@
 				
 			});
 		}
+		
+		function join(){
+			var n = $("#nickname").val();
+			
+			if(n.length > 0){
+				if(n.length > 40){
+					alert("Nickname is too long!");
+				}else{
+					sendSocketMessage("setName", $("#nickname").val());
+					$("#joinModule").hide();
+					$("#drawModule").show();
+					
+				}				
+			}else{
+				alert("enter a nickname!");
+			}			
+		}
 	
 		$(document).ready(function(){			
 			init(); 
@@ -130,29 +149,35 @@
 			
 			socket.on('down', function (data) {
 				//console.log(data);
-				onMouseDownRemote(data.draw.x, data.draw.y, data.draw.lc);
+				onMouseDownRemote(data.draw.x, data.draw.y, data.draw.lc,data.,nickname);
 			});
 			
 			socket.on('move', function (data) {
 				//console.log(data);
-				onMoveRemote(data.draw.x, data.draw.y);
+				onMoveRemote(data.draw.x, data.draw.y,data.,nickname);
 			});
 			
 			socket.on('erase', function (data) {
-				eraseAll();
+				eraseAllRemote();
 			});
 		});
 	</script>	
 </head>
 <body>
-	<canvas id="backg" width='500' height='500' style='z-index:0;position:absolute'></canvas>
-	<canvas id="drawLayer" width='500' height='500' style='z-index:2;position:absolute'></canvas>
-	<canvas id="drawLayerRemote" width='500' height='500' style='z-index:1;position:absolute'></canvas>
-	<input type="button" onclick="eraseAll()" value="ERASE ALL" style='z-index:3;position:relative'/>
-	<div class="chip" color="#FF0000" style="z-index:4;width:20px; height:20px;position:relative">&nbsp;</div>
-	<div class="chip" color="#00FF00" width="20px" height="20px" style='z-index:5;width:20px; height:20px;position:relative'>&nbsp;</div>
-	<div class="chip" color="#0000FF" width="20px" height="20px" style='z-index:6;width:20px; height:20px;position:relative'>&nbsp;</div>
-
+	<div id="joinModule">
+		<input type="text" id="nickname" value=""/>
+		<input type="button" onclick="join()" value="JOIN"/>
+	</div>
+	
+	<div id="drawModule" style="display:hidden">
+		<canvas id="backg" width='500' height='500' style='z-index:0;position:absolute'></canvas>
+		<canvas id="drawLayer" width='500' height='500' style='z-index:2;position:absolute'></canvas>
+		<canvas id="drawLayerRemote" width='500' height='500' style='z-index:1;position:absolute'></canvas>
+		<input type="button" onclick="eraseAll()" value="ERASE ALL" style='z-index:3;position:relative'/>
+		<div class="chip" color="#FF0000" style="z-index:4;width:20px; height:20px;position:relative">&nbsp;</div>
+		<div class="chip" color="#00FF00" width="20px" height="20px" style='z-index:5;width:20px; height:20px;position:relative'>&nbsp;</div>
+		<div class="chip" color="#0000FF" width="20px" height="20px" style='z-index:6;width:20px; height:20px;position:relative'>&nbsp;</div>
+	</div>
 		
 </body>
 </html>
