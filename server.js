@@ -38,20 +38,20 @@ io.sockets.on('connection', function (socket) {
   
 	socket.on('move', function (data) {
 		socket.get('nickname', function (err, name) {
-			socket.broadcast.emit('move', { draw: data,nickname:name });
+			socket.broadcast.emit('move', { draw: data,nickname:name,socketID:socket.id });
 		});	  
 	});
 
 	socket.on('down', function (data) {
 		socket.get('nickname', function (err, name) {
-			socket.broadcast.emit('down', { draw: data,nickname:name });
+			socket.broadcast.emit('down', { draw: data,nickname:name,socketID:socket.id });
 		});
 	  
 	});
 
 	socket.on('erase', function (data) {
 		socket.get('nickname', function (err, name) {
-			socket.broadcast.emit('erase', { draw: data,nickname:name });
+			socket.broadcast.emit('erase', { draw: data,nickname:name,socketID:socket.id });
 		});
 	});	
 	

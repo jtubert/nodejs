@@ -9,14 +9,28 @@
 	<meta name="author" content="John Tubert">
 	<script src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+	
+	<style>
+		.mouse{
+			background-image: url('cursor.png');
+			position: absolute;
+			background-repeat: no-repeat;
+			height: 22px;
+			min-width: 15px;
+		}		
+	</style>
+	
 	<script>
 		var socket = io.connect('http://jtubert2.no.de/');
 		var drawLayer;		
 		var ctx;
 		var drawLayerRemote;		
 		var ctxRemote;
-		var lineColor = "#000000";
-		var lineColorRemote = "#000000";
+		var lineColor = "#000000";		
+		
+		var remoteLayerArray = {};
+		var remoteCtxArray = {};
+		var zindex = 0;
 		
 		//socket.socket.sessionid
 		
@@ -62,14 +76,24 @@
 			sendSocketMessage('down', { x:x,y:y,lc:lineColor});	
 		}
 		
-		function onMouseDownRemote(x,y,lc,nickname){
-			ctxRemote.lineWidth = 3;
-			ctxRemote.strokeStyle = lc;
-			ctxRemote.beginPath();
-			ctxRemote.moveTo(x,y);
+		function createCanvasObject(nickname,socketID){
+			zindex++;
+			remoteLayerArray[socketID] = $("<canvas style='position:absolute;z-index:" + zindex + "' id='" + socketID + "' width='500' height='500'></canvas>").appendTo("#drawModule");
+			remoteLayerArray[socketID].nickname = nickname;		
+			var layer = document.getElementById(socketID);
+	        remoteCtxArray[socketID] = layer.getContext("2d");			
 		}
 		
-		
+		function onMouseDownRemote(x,y,lc,nickname,socketID){
+			if(!remoteLayerArray[socketID]){
+				createCanvasObject(nickname,socketID);
+			}
+			
+			remoteCtxArray[socketID].lineWidth = 3;
+			remoteCtxArray[socketID].strokeStyle = lc;
+			remoteCtxArray[socketID].beginPath();
+			remoteCtxArray[socketID].moveTo(x,y);
+		}		
 
 		function eraseAll(){
 			ctx.clearRect(0,0,500,500);			
@@ -78,8 +102,7 @@
 		
 		function eraseAllRemote(){
 			ctxRemote.clearRect(0,0,500,500);
-		}			
-
+		}
 
 		function onMouseUp(e){
 			drawLayer.removeEventListener('mousemove', onMove,false);
@@ -96,9 +119,9 @@
 									
 		}
 		
-		function onMoveRemote(x, y,nickname){			
-			ctxRemote.lineTo(x,y);						
-			ctxRemote.stroke();
+		function onMoveRemote(x, y,nickname,socketID){			
+			remoteCtxArray[socketID].lineTo(x,y);						
+			remoteCtxArray[socketID].stroke();
 		}
 		
 		
@@ -149,12 +172,12 @@
 			
 			socket.on('down', function (data) {
 				//console.log(data);
-				onMouseDownRemote(data.draw.x, data.draw.y, data.draw.lc,data.nickname);
+				onMouseDownRemote(data.draw.x, data.draw.y, data.draw.lc,data.nickname,data.socketID);
 			});
 			
 			socket.on('move', function (data) {
 				//console.log(data);
-				onMoveRemote(data.draw.x, data.draw.y,data.nickname);
+				onMoveRemote(data.draw.x, data.draw.y,data.nickname,data.socketID);
 			});
 			
 			socket.on('erase', function (data) {
@@ -169,14 +192,14 @@
 		<input type="button" onclick="join()" value="JOIN"/>
 	</div>
 	
-	<div id="drawModule" style="display:hidden">
+	<div id="drawModule" style="display:none">
 		<canvas id="backg" width='500' height='500' style='z-index:0;position:absolute'></canvas>
 		<canvas id="drawLayer" width='500' height='500' style='z-index:2;position:absolute'></canvas>
-		<canvas id="drawLayerRemote" width='500' height='500' style='z-index:1;position:absolute'></canvas>
-		<input type="button" onclick="eraseAll()" value="ERASE ALL" style='z-index:3;position:relative'/>
-		<div class="chip" color="#FF0000" style="z-index:4;width:20px; height:20px;position:relative">&nbsp;</div>
-		<div class="chip" color="#00FF00" width="20px" height="20px" style='z-index:5;width:20px; height:20px;position:relative'>&nbsp;</div>
-		<div class="chip" color="#0000FF" width="20px" height="20px" style='z-index:6;width:20px; height:20px;position:relative'>&nbsp;</div>
+		<!--canvas id="drawLayerRemote" width='500' height='500' style='z-index:1;position:absolute'></canvas-->
+		<input type="button" onclick="eraseAll()" value="ERASE ALL" style='z-index:300;position:relative'/>
+		<div class="chip" color="#FF0000" style="z-index:400;width:20px; height:20px;position:relative">&nbsp;</div>
+		<div class="chip" color="#00FF00" width="20px" height="20px" style='z-index:500;width:20px; height:20px;position:relative'>&nbsp;</div>
+		<div class="chip" color="#0000FF" width="20px" height="20px" style='z-index:600;width:20px; height:20px;position:relative'>&nbsp;</div>
 	</div>
 		
 </body>
