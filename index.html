@@ -9,7 +9,6 @@
 	<meta name="author" content="John Tubert">
 	<script src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-	
 	<script>
 		var socket = io.connect('http://jtubert2.no.de/');
 		var drawLayer;		
@@ -21,8 +20,8 @@
 		
 		//socket.socket.sessionid
 		
-		function sendMessage(name,object){
-			console.log(socket.socket.sessionid+" - sending message: "+name);
+		function sendSocketMessage(name,object){
+			console.log(io.sockets.clients().length);
 			socket.emit(name, object);
 		}
 
@@ -35,7 +34,7 @@
 			
 			drawBackg();
 			drawLayer.addEventListener('mousedown', onMouseDown, false);		
-			drawLayer.addEventListener('mouseup', onMouseUp, false);			
+			drawLayer.addEventListener('mouseup', onMouseUp, false);	
 		}
 		
 		hex_to_decimal = function(hex) {
@@ -60,7 +59,7 @@
 			ctx.moveTo(x,y);
 			drawLayer.addEventListener('mousemove', onMove, false);	
 			
-			sendMessage('down', { x:x,y:y,lc:lineColor});	
+			sendSocketMessage('down', { x:x,y:y,lc:lineColor});	
 		}
 		
 		function onMouseDownRemote(x,y,lc){
@@ -89,7 +88,7 @@
 			ctx.lineTo(x,y);						
 			ctx.stroke();
 			
-			sendMessage('move', {x:x,y:y});
+			sendSocketMessage('move', {x:x,y:y});
 									
 		}
 		
