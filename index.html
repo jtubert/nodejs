@@ -23,13 +23,12 @@
 	<script>
 		var socket = io.connect('http://jtubert2.no.de/');
 		var drawLayer;		
-		var ctx;
-		//var drawLayerRemote;		
-		//var ctxRemote;
+		var ctx;		
 		var lineColor = "#000000";		
 		
 		var remoteLayerArray = {};
 		var remoteCtxArray = {};
+		var cursorsArray = {};
 		var zindex = 0;
 		
 		//socket.socket.sessionid
@@ -81,7 +80,9 @@
 			remoteLayerArray[socketID] = $("<canvas style='position:absolute;z-index:" + zindex + "' id='" + socketID + "' width='500' height='500'></canvas>").appendTo("#drawModule");
 			remoteLayerArray[socketID].nickname = nickname;		
 			var layer = document.getElementById(socketID);
-	        remoteCtxArray[socketID] = layer.getContext("2d");			
+	        remoteCtxArray[socketID] = layer.getContext("2d");	
+	
+			cursorsArray[socketID] = $("<span class='mouse' style='z-index:"+(1000+zindex)+"' id='" + socketID + "'></span>").appendTo("#drawModule");
 		}
 		
 		function onMouseDownRemote(x,y,lc,nickname,socketID){
@@ -122,6 +123,9 @@
 		function onMoveRemote(x, y,nickname,socketID){			
 			remoteCtxArray[socketID].lineTo(x,y);						
 			remoteCtxArray[socketID].stroke();
+			
+			cursorsArray[socketID].css("left",x+"px");
+			cursorsArray[socketID].css("top",y+"px");
 		}
 		
 		
