@@ -44,13 +44,15 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('down', function (data) {
 		socket.get('nickname', function (err, name) {
-			socket.broadcast.emit('down', { draw: data,nickname:nickname });
+			socket.broadcast.emit('down', { draw: data,nickname:name });
 		});
 	  
 	});
 
 	socket.on('erase', function (data) {
-		socket.broadcast.emit('erase', { draw: data,nickname:nickname });
+		socket.get('nickname', function (err, name) {
+			socket.broadcast.emit('erase', { draw: data,nickname:name });
+		});
 	});	
 	
 });
