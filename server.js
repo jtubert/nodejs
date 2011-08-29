@@ -4,6 +4,8 @@ var app = require('http').createServer(handler),
 
 app.listen(80);
 
+var users={};
+
 
 
 function handler (req, res) {
@@ -19,23 +21,25 @@ function handler (req, res) {
   });
 }
 
-io.sockets.on('connection', function (socket) {
+io.sockets.on('connection', function (socket) {	
+	console.log("connections: "+socket.namespace.manager.server.connections);
 	
-	console.log(socket);
-	
-  console.log("-----------------length: "+io.sockets.clients().length);
+	if(!users[socket.id]){
+		users[socket.id] = socket;
+		console.log("-----------------length: "+io.sockets.clients().length+" / "+socket.id);
+	}	
   
-  socket.on('move', function (data) {
-    socket.broadcast.emit('move', { draw: data });
-  });
+	socket.on('move', function (data) {
+	  socket.broadcast.emit('move', { draw: data });
+	});
 
-  socket.on('down', function (data) {
-    socket.broadcast.emit('down', { draw: data });
-  });
+	socket.on('down', function (data) {
+	  socket.broadcast.emit('down', { draw: data });
+	});
 
-  socket.on('erase', function (data) {
+	socket.on('erase', function (data) {
 	socket.broadcast.emit('erase', { draw: data });
-  });
+	});
 });
 
 
