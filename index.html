@@ -21,7 +21,7 @@
 		//socket.socket.sessionid
 		
 		function sendSocketMessage(name,object){
-			console.log(io.sockets.clients().length);
+			//console.log(socket.clients().length);
 			socket.emit(name, object);
 		}
 
