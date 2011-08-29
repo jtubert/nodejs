@@ -149,12 +149,12 @@
 			
 			socket.on('down', function (data) {
 				//console.log(data);
-				onMouseDownRemote(data.draw.x, data.draw.y, data.draw.lc,data.,nickname);
+				onMouseDownRemote(data.draw.x, data.draw.y, data.draw.lc,data.nickname);
 			});
 			
 			socket.on('move', function (data) {
 				//console.log(data);
-				onMoveRemote(data.draw.x, data.draw.y,data.,nickname);
+				onMoveRemote(data.draw.x, data.draw.y,data.nickname);
 			});
 			
 			socket.on('erase', function (data) {
