@@ -73,6 +73,8 @@
 
 		function eraseAll(){
 			ctx.clearRect(0,0,500,500);
+			
+			sendSocketMessage('erase', {});
 			//console.log();				
 		}			
 
@@ -127,13 +129,17 @@
 			console.log("onReady");
 			
 			socket.on('down', function (data) {
-				console.log(data);
+				//console.log(data);
 				onMouseDownRemote(data.draw.x, data.draw.y, data.draw.lc);
 			});
 			
 			socket.on('move', function (data) {
-				console.log(data);
+				//console.log(data);
 				onMoveRemote(data.draw.x, data.draw.y);
+			});
+			
+			socket.on('erase', function (data) {
+				eraseAll();
 			});
 		});
 	</script>	

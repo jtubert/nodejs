@@ -30,6 +30,10 @@ io.sockets.on('connection', function (socket) {
   socket.on('down', function (data) {
     socket.broadcast.emit('down', { draw: data });
   });
+
+  socket.on('erase', function (data) {
+	socket.broadcast.emit('erase', { draw: data });
+  });
 });
 
 
