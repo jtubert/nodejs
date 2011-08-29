@@ -24,8 +24,8 @@
 		var socket = io.connect('http://jtubert2.no.de/');
 		var drawLayer;		
 		var ctx;
-		var drawLayerRemote;		
-		var ctxRemote;
+		//var drawLayerRemote;		
+		//var ctxRemote;
 		var lineColor = "#000000";		
 		
 		var remoteLayerArray = {};
@@ -43,8 +43,8 @@
 			drawLayer = document.getElementById('drawLayer');		
 			ctx = drawLayer.getContext('2d');
 			
-			drawLayerRemote = document.getElementById('drawLayerRemote');		
-			ctxRemote = drawLayerRemote.getContext('2d');
+			//drawLayerRemote = document.getElementById('drawLayerRemote');		
+			//ctxRemote = drawLayerRemote.getContext('2d');
 			
 			drawBackg();
 			drawLayer.addEventListener('mousedown', onMouseDown, false);		
@@ -101,7 +101,7 @@
 		}
 		
 		function eraseAllRemote(){
-			ctxRemote.clearRect(0,0,500,500);
+			//ctxRemote.clearRect(0,0,500,500);
 		}
 
 		function onMouseUp(e){
