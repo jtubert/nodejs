@@ -29,12 +29,13 @@ io.sockets.on('connection', function (socket) {
 		//console.log("-----------------length: "+io.sockets.clients().length+" / "+socket.id);
 	}
 	
-	socket.on('setName', function (name) {
-		console.log("-----------------name: "+name);  
-		socket.set("nickname",name);	
+	socket.on('nickname', function (name) {
+	    socket.set('nickname', name, function () {}	      
 	});
 	
-	var nickname = socket.get("nickname");
+	var nickname = socket.get("nickname",function(){
+		//
+	});
 	
   
 	socket.on('move', function (data) {
