@@ -77,7 +77,7 @@
 		
 		function createCanvasObject(nickname,socketID){
 			zindex++;
-			remoteLayerArray[socketID] = $("<canvas style='position:absolute;z-index:" + zindex + "' id='" + socketID + "' width='500' height='500'></canvas>").appendTo("#drawModule");
+			remoteLayerArray[socketID] = $("<canvas style='top:0px;left:0px;position:absolute;z-index:" + zindex + "' id='" + socketID + "' width='500' height='500'></canvas>").appendTo("#drawModule");
 			remoteLayerArray[socketID].nickname = nickname;		
 			var layer = document.getElementById(socketID);
 	        remoteCtxArray[socketID] = layer.getContext("2d");	
@@ -198,7 +198,7 @@
 	
 	<div id="drawModule" style="display:none">
 		<canvas id="backg" width='500' height='500' style='z-index:0;position:absolute'></canvas>
-		<canvas id="drawLayer" width='500' height='500' style='z-index:2;position:absolute'></canvas>
+		<canvas id="drawLayer" width='500' height='500' style='z-index:99999;position:absolute;top:0px;left:0px'></canvas>
 		<!--canvas id="drawLayerRemote" width='500' height='500' style='z-index:1;position:absolute'></canvas-->
 		<input type="button" onclick="eraseAll()" value="ERASE ALL" style='z-index:300;position:relative'/>
 		<div class="chip" color="#FF0000" style="z-index:400;width:20px; height:20px;position:relative">&nbsp;</div>
