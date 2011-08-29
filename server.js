@@ -30,7 +30,7 @@ io.sockets.on('connection', function (socket) {
 	}
 	
 	socket.on('nickname', function (name) {
-	    socket.set('nickname', name, function () {}	      
+	    socket.set('nickname', name, function () {});	      
 	});
 	
 	var nickname = socket.get("nickname",function(){
