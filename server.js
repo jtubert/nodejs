@@ -21,7 +21,7 @@ function handler (req, res) {
 
 io.sockets.on('connection', function (socket) {
 	
-  console.log("-----------------length: "+io.sockets.clients().length+" / ");
+  console.log("-----------------length: "+io.sockets.clients().length+" / "+socket.sessionid);
   
   socket.on('move', function (data) {
     socket.broadcast.emit('move', { draw: data });
