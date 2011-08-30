@@ -82,7 +82,7 @@
 			var layer = document.getElementById(socketID);
 	        remoteCtxArray[socketID] = layer.getContext("2d");	
 	
-			cursorsArray[socketID] = $("<span class='mouse' style='z-index:"+(1000+zindex)+"' id='" + socketID + "'></span>").appendTo("#drawModule");
+			cursorsArray[socketID] = $("<span class='mouse' style='z-index:"+(1000+zindex)+"' id='" + socketID + "'></span><div style='position:relative'>"+nickname+"</div>").appendTo("#drawModule");
 		}
 		
 		function onMouseDownRemote(x,y,lc,nickname,socketID){
@@ -198,12 +198,11 @@
 	
 	<div id="drawModule" style="display:none">
 		<canvas id="backg" width='500' height='500' style='z-index:0;position:absolute'></canvas>
-		<canvas id="drawLayer" width='500' height='500' style='z-index:99999;position:absolute;top:0px;left:0px'></canvas>
-		<!--canvas id="drawLayerRemote" width='500' height='500' style='z-index:1;position:absolute'></canvas-->
-		<input type="button" onclick="eraseAll()" value="ERASE ALL" style='z-index:300;position:relative'/>
-		<div class="chip" color="#FF0000" style="z-index:400;width:20px; height:20px;position:relative">&nbsp;</div>
-		<div class="chip" color="#00FF00" width="20px" height="20px" style='z-index:500;width:20px; height:20px;position:relative'>&nbsp;</div>
-		<div class="chip" color="#0000FF" width="20px" height="20px" style='z-index:600;width:20px; height:20px;position:relative'>&nbsp;</div>
+		<canvas id="drawLayer" width='500' height='500' style='z-index:10000;position:absolute;top:0px;left:0px'></canvas>
+		<input type="button" onclick="eraseAll()" value="ERASE ALL" style='z-index:10004;position:relative'/>
+		<div class="chip" color="#FF0000" style="z-index:10001;width:20px; height:20px;position:relative">&nbsp;</div>
+		<div class="chip" color="#00FF00" width="20px" height="20px" style='z-index:10002;width:20px; height:20px;position:relative'>&nbsp;</div>
+		<div class="chip" color="#0000FF" width="20px" height="20px" style='z-index:10003;width:20px; height:20px;position:relative'>&nbsp;</div>
 	</div>
 		
 </body>
