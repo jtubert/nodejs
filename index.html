@@ -231,7 +231,9 @@
 			});
 			
 			socket.on('connect', function (data) {
-				$("#users").html("Number of connected users: "+data.connections);
+				if(data && data.connections){
+					$("#users").html("Number of connected users: "+data.connections);
+				}				
 			});
 		});
 	</script>	
