@@ -82,7 +82,7 @@
 			var layer = document.getElementById(socketID);
 	        remoteCtxArray[socketID] = layer.getContext("2d");	
 	
-			cursorsArray[socketID] = $("<span class='mouse' style='z-index:"+(1000+zindex)+"' id='" + socketID + "'></span><div style='position:relative'>"+nickname+"</div>").appendTo("#drawModule");
+			cursorsArray[socketID] = $("<div><span class='mouse' style='z-index:"+(1000+zindex)+"' id='" + socketID + "'></span><div style='position:relative'>"+nickname+"</div></div>").appendTo("#drawModule");
 		}
 		
 		function onMouseDownRemote(x,y,lc,nickname,socketID){
