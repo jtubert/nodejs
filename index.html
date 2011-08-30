@@ -23,6 +23,15 @@
 			position:relative;
 			background:white;
 			padding:3px;
+			left:16px;
+		}
+		
+		#footer {
+		   position:absolute;
+		   bottom:0;
+		   width:100%;
+		   height:60px;   /* Height of the footer */
+		   background:#6cf;
 		}		
 	</style>
 	
@@ -96,6 +105,8 @@
 				createCanvasObject(nickname,socketID);
 			}
 			
+			cursorsArray[socketID].show();
+			
 			remoteCtxArray[socketID].lineWidth = 3;
 			remoteCtxArray[socketID].strokeStyle = lc;
 			remoteCtxArray[socketID].beginPath();
@@ -108,12 +119,18 @@
 		}
 		
 		function eraseAllRemote(){
-			//ctxRemote.clearRect(0,0,500,500);
+			for (socketID in remoteCtxArray){
+				remoteCtxArray[socketID].clearRect(0,0,500,500);
+			}
 		}
 
 		function onMouseUp(e){
 			drawLayer.removeEventListener('mousemove', onMove,false);
-			//eraseAll();				
+			sendSocketMessage('mouseup', {});					
+		}
+		
+		function onMouseUpRemote(nickname,socketID){
+			cursorsArray[socketID].hide();
 		}			
 
 		function onMove(e) {				
@@ -185,13 +202,18 @@
 				onMouseDownRemote(data.draw.x, data.draw.y, data.draw.lc,data.nickname,data.socketID);
 			});
 			
+			socket.on('mouseup', function (data) {
+				//console.log(data);
+				onMouseUpRemote(data.nickname,data.socketID);
+			});
+			
 			socket.on('move', function (data) {
 				//console.log(data);
 				onMoveRemote(data.draw.x, data.draw.y,data.nickname,data.socketID);
 			});
 			
 			socket.on('erase', function (data) {
-				eraseAllRemote();
+				eraseAllRemote(data.connections);
 			});
 		});
 	</script>	
@@ -209,6 +231,10 @@
 		<div class="chip" color="#FF0000" style="z-index:10001;width:20px; height:20px;position:relative">&nbsp;</div>
 		<div class="chip" color="#00FF00" width="20px" height="20px" style='z-index:10002;width:20px; height:20px;position:relative'>&nbsp;</div>
 		<div class="chip" color="#0000FF" width="20px" height="20px" style='z-index:10003;width:20px; height:20px;position:relative'>&nbsp;</div>
+	</div>
+	
+	<div id="footer">
+		
 	</div>
 		
 </body>
