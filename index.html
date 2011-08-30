@@ -17,6 +17,12 @@
 			background-repeat: no-repeat;
 			height: 22px;
 			min-width: 15px;
+		}
+		
+		.nickname{
+			position:relative;
+			background:white;
+			padding:3px;
 		}		
 	</style>
 	
@@ -82,7 +88,7 @@
 			var layer = document.getElementById(socketID);
 	        remoteCtxArray[socketID] = layer.getContext("2d");	
 	
-			cursorsArray[socketID] = $("<div style='position:absolute;z-index:"+(1000+zindex)+"' id='" + socketID + "><span class='mouse'></span><div style='position:relative'>"+nickname+"</div></div>").appendTo("#drawModule");
+			cursorsArray[socketID] = $("<div style='position:absolute;z-index:"+(1000+zindex)+"' id='" + socketID + "'><span class='mouse'></span><div class='nickname'>"+nickname+"</div></div>").appendTo("#drawModule");
 		}
 		
 		function onMouseDownRemote(x,y,lc,nickname,socketID){
