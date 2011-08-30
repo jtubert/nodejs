@@ -105,7 +105,7 @@
 	
 			cursorsArray[socketID] = $("<div style='position:absolute;z-index:"+(1000+zindex)+"' id='" + socketID + "'><span class='mouse'></span><div class='nickname'>"+nickname+"</div></div>").appendTo("#drawModule");
 		
-			$("#users").text("Number of connected users: "+zindex);
+			$("#users").html("Number of connected users: "+(zindex+1));
 		}
 		
 		function onMouseDownRemote(x,y,lc,nickname,socketID){
@@ -195,6 +195,7 @@
 					sendSocketMessage("setName", $("#nickname").val());
 					$("#joinModule").hide();
 					$("#drawModule").show();
+					$("#users").html("Number of connected users: 1");
 					
 				}				
 			}else{
@@ -245,7 +246,7 @@
 	</div>
 	
 	<div id="footer">
-		<div id="users">Number of connected users: 0</div>
+		<p id="users" style="padding-left:5px">Number of connected users: 0</p>
 	</div>
 		
 </body>
