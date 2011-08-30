@@ -20,6 +20,8 @@ io.sockets.on('connection', function (socket) {
 	console.log("connections: "+socket.namespace.manager.server.connections);
 	//console.log("-----------------length: "+io.sockets.clients().length+" / "+socket.id);
 	
+	socket.emit('connect',{connections: socket.namespace.manager.server.connections});
+	
 	socket.on('setName', function (name) {
 	    socket.set('nickname', name, function () {
 	      //socket.emit('ready');

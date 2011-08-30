@@ -105,7 +105,7 @@
 	
 			cursorsArray[socketID] = $("<div style='position:absolute;z-index:"+(1000+zindex)+"' id='" + socketID + "'><span class='mouse'></span><div class='nickname'>"+nickname+"</div></div>").appendTo("#drawModule");
 		
-			$("#users").html("Number of connected users: "+(zindex+1));
+			//$("#users").html("Number of connected users: "+(zindex+1));
 		}
 		
 		function onMouseDownRemote(x,y,lc,nickname,socketID){
@@ -119,20 +119,22 @@
 			remoteCtxArray[socketID].strokeStyle = lc;
 			remoteCtxArray[socketID].beginPath();
 			remoteCtxArray[socketID].moveTo(x,y);
-		}		
+		}	
+		
+		function erase(){
+			ctx.clearRect(0,0,500,500);	
+			for (socketID in remoteCtxArray){
+				remoteCtxArray[socketID].clearRect(0,0,500,500);
+			}
+		}	
 
 		function eraseAll(){
-			ctx.clearRect(0,0,500,500);	
-			
-			eraseAllRemote();
-					
+			erase();
 			sendSocketMessage('erase', {});						
 		}
 		
 		function eraseAllRemote(){
-			for (socketID in remoteCtxArray){
-				remoteCtxArray[socketID].clearRect(0,0,500,500);
-			}
+			erase();
 		}
 
 		function onMouseUp(e){
@@ -195,7 +197,7 @@
 					sendSocketMessage("setName", $("#nickname").val());
 					$("#joinModule").hide();
 					$("#drawModule").show();
-					$("#users").html("Number of connected users: 1");
+					//$("#users").html("Number of connected users: 1");
 					
 				}				
 			}else{
@@ -226,6 +228,10 @@
 			
 			socket.on('erase', function (data) {
 				eraseAllRemote();
+			});
+			
+			socket.on('connect', function (data) {
+				$("#users").html("Number of connected users: "+data.connections);
 			});
 		});
 	</script>	
