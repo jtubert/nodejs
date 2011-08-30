@@ -11,6 +11,12 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 	
 	<style>
+		body {
+		   margin:0;
+		   padding:0;
+		   height:100%;
+		}
+		
 		.mouse{
 			background-image: url('http://www.jtubert.com/cursor.png');
 			position: absolute;
@@ -30,7 +36,7 @@
 		   position:absolute;
 		   bottom:0;
 		   width:100%;
-		   height:60px;   /* Height of the footer */
+		   height:40px;   /* Height of the footer */
 		   background:#6cf;
 		}		
 	</style>
@@ -98,6 +104,8 @@
 	        remoteCtxArray[socketID] = layer.getContext("2d");	
 	
 			cursorsArray[socketID] = $("<div style='position:absolute;z-index:"+(1000+zindex)+"' id='" + socketID + "'><span class='mouse'></span><div class='nickname'>"+nickname+"</div></div>").appendTo("#drawModule");
+		
+			$("#users").text("Number of connected users: "+zindex);
 		}
 		
 		function onMouseDownRemote(x,y,lc,nickname,socketID){
@@ -114,7 +122,10 @@
 		}		
 
 		function eraseAll(){
-			ctx.clearRect(0,0,500,500);			
+			ctx.clearRect(0,0,500,500);	
+			
+			eraseAllRemote();
+					
 			sendSocketMessage('erase', {});						
 		}
 		
@@ -213,7 +224,7 @@
 			});
 			
 			socket.on('erase', function (data) {
-				eraseAllRemote(data.connections);
+				eraseAllRemote();
 			});
 		});
 	</script>	
@@ -234,7 +245,7 @@
 	</div>
 	
 	<div id="footer">
-		
+		<div id="users">Number of connected users: 0</div>
 	</div>
 		
 </body>
