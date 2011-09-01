@@ -9,6 +9,7 @@
 	<meta name="author" content="John Tubert">
 	<script src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+	<script type="text/javascript" src="stats.js"></script>
 	
 	<style>
 		body {
@@ -53,6 +54,21 @@
 		var zindex = 0;
 		
 		//socket.socket.sessionid
+		
+		var stats = new Stats();
+
+		// Align top-left
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.left = '0px';
+		stats.domElement.style.top = '0px';
+
+		parentElement.appendChild( stats.domElement );
+
+		setInterval( function () {
+
+		    stats.update();
+
+		}, 1000 / 60 );
 		
 		function sendSocketMessage(name,object){
 			//console.log(socket.clients().length);
