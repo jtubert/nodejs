@@ -1,5 +1,5 @@
-var socket = io.connect('http://localhost:8080/');
-//var socket = io.connect('http://thedrawingroom.no.de/');
+//var socket = io.connect('http://localhost:8080/');
+var socket = io.connect('http://thedrawingroom.no.de/');
 //var socket = io.connect('http://nodejs.jtubert.cloud9ide.com/');
 var drawLayer;		
 var ctx;		
