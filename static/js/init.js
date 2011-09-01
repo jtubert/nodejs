@@ -46,7 +46,7 @@ function login(){
     FB.api('/me', function(response) {
         //document.getElementById('login').style.display = "block";
         //document.getElementById('login').innerHTML = response.name + " succsessfully logged in!";
-		$("#nickname").text(response.name);
+		$("#nickname").val(response.name);
 		join();
     });
 }
