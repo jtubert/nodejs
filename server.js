@@ -6,7 +6,7 @@ var app = require('express').createServer(),
 app.use(gzippo.staticGzip(__dirname + '/static'));
 
 //app.listen(process.env.C9_PORT, "0.0.0.0");
-app.listen(8080);
+app.listen(80);
 
 
 
