@@ -26,6 +26,24 @@ var canvasH=window.innerHeight;
 
 window.fbAsyncInit = function() {
  	FB.init({appId: "159663177449942", status: true, cookie: true, xfbml: true}); 
+
+	/* All the events registered */
+     FB.Event.subscribe('auth.login', function(response) {
+         // do something with response
+		console.log("auth.login");
+         
+     });
+     FB.Event.subscribe('auth.logout', function(response) {
+         // do something with response
+        console.log("auth.logout");
+     });
+
+     FB.getLoginStatus(function(response) {
+         if (response.session) {
+             // logged in and connected user, someone you know
+             console.log(response);
+         }
+     });
 }; 
 
 function login(){
