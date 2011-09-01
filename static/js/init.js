@@ -25,13 +25,10 @@ var canvasH=window.innerHeight;
 
 
 window.fbAsyncInit = function() {
- 	FB.init({appId: "159663177449942", status: true, cookie: true, xfbml: true}); 
-
-	/* All the events registered */
-     FB.Event.subscribe('auth.login', function(response) {
-         // do something with response
-		console.log("auth.login");
-         
+ 	FB.init({appId: "159663177449942", status: true, cookie: true, xfbml: true}); 	
+    
+	FB.Event.subscribe('auth.login', function(response) {         
+		login();         
      });
      FB.Event.subscribe('auth.logout', function(response) {
          // do something with response
@@ -39,9 +36,7 @@ window.fbAsyncInit = function() {
      });
 
      FB.getLoginStatus(function(response) {
-         if (response.session) {
-             // logged in and connected user, someone you know
-             console.log(response);
+         if (response.session) {             
 			login();
          }
      });
@@ -49,8 +44,10 @@ window.fbAsyncInit = function() {
 
 function login(){
     FB.api('/me', function(response) {
-        document.getElementById('login').style.display = "block";
-        document.getElementById('login').innerHTML = response.name + " succsessfully logged in!";
+        //document.getElementById('login').style.display = "block";
+        //document.getElementById('login').innerHTML = response.name + " succsessfully logged in!";
+		$("#nickname").text(response.name);
+		join();
     });
 }
 
