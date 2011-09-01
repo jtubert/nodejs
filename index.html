@@ -9,7 +9,6 @@
 	<meta name="author" content="John Tubert">
 	<script src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-	<!--script type="text/javascript" src="Stats.js"></script-->
 	
 	<style>
 		body {
@@ -32,6 +31,21 @@
 			padding:3px;
 			left:16px;
 		}
+        
+        .right {
+            background:#CCCCCC;
+            position: absolute;
+            right: 0;
+            width: 200px;
+            height: 100%;
+            top: 0px;
+            text-align: left;
+            padding:0px 10px;
+        }
+        
+        .msg{
+           left:5px; 
+        }
 		
 		#footer {
 		   position:absolute;
@@ -44,6 +58,7 @@
 	
 	<script>
 		var socket = io.connect('http://thedrawingroom.no.de/');
+		//var socket = io.connect('http://nodejs.jtubert.cloud9ide.com/');
 		var drawLayer;		
 		var ctx;		
 		var lineColor = "#000000";		
@@ -52,24 +67,12 @@
 		var remoteCtxArray = {};
 		var cursorsArray = {};
 		var zindex = 0;
+        
+        var canvasW=window.innerWidth;
+        var canvasH=window.innerHeight;
 		
 		//socket.socket.sessionid
 		
-		/*var stats = new Stats();
-
-		// Align top-left
-		stats.domElement.style.position = 'absolute';
-		stats.domElement.style.left = '0px';
-		stats.domElement.style.top = '0px';
-
-		$("body").append( stats.domElement );
-
-		setInterval( function () {
-
-		    stats.update();
-
-		}, 1000 / 60 );
-		*/
 		function sendSocketMessage(name,object){
 			//console.log(socket.clients().length);
 			socket.emit(name, object);
@@ -78,6 +81,13 @@
 		function init(){
 			drawLayer = document.getElementById('drawLayer');		
 			ctx = drawLayer.getContext('2d');
+            ctx.canvas.width  = canvasW;
+            ctx.canvas.height = canvasH;
+            
+            var backDrawLayer = document.getElementById('backg');    	
+			var backctx = backDrawLayer.getContext('2d');
+            backctx.canvas.width  = canvasW;
+            backctx.canvas.height = canvasH;
 			
 			//drawLayerRemote = document.getElementById('drawLayerRemote');		
 			//ctxRemote = drawLayerRemote.getContext('2d');
@@ -98,7 +108,7 @@
 		function drawBackg(){
 			var backgctx = document.getElementById('backg').getContext('2d');
 			backgctx.fillStyle = css3color("DDDDDD",1);
-			backgctx.fillRect(0,0,500,500);				
+			backgctx.fillRect(0,0,canvasW,canvasH);				
 		}			
 		function onMouseDown(e){
 			var x = e.clientX-drawLayer.offsetLeft;
@@ -138,9 +148,9 @@
 		}	
 		
 		function erase(){
-			ctx.clearRect(0,0,500,500);	
+			ctx.clearRect(0,0,canvasW,canvasH);	
 			for (socketID in remoteCtxArray){
-				remoteCtxArray[socketID].clearRect(0,0,500,500);
+				remoteCtxArray[socketID].clearRect(0,0,canvasW,canvasH);
 			}
 		}	
 
@@ -171,6 +181,16 @@
 			sendSocketMessage('move', {x:x,y:y});
 									
 		}
+        
+        function addMsg(user,msg,color){
+            $("#chat").append('<span style="color:'+color+'" class="msg">'+user+': '+msg+'</span><br>');
+        }
+        
+        function sendMsg(){
+            sendSocketMessage('sendMsg', {msg:$("#msg").val()});
+            addMsg('me',$("#msg").val(),"#000000");
+            
+        }
 		
 		function onMoveRemote(x, y,nickname,socketID){			
 			remoteCtxArray[socketID].lineTo(x,y);						
@@ -213,6 +233,7 @@
 					sendSocketMessage("setName", $("#nickname").val());
 					$("#joinModule").hide();
 					$("#drawModule").show();
+                    $("#chat").show();
 					//$("#users").html("Number of connected users: 1");
 					
 				}				
@@ -245,6 +266,10 @@
 			socket.on('erase', function (data) {
 				eraseAllRemote();
 			});
+            
+            socket.on('sendMsg', function (data) {
+                addMsg(data.nickname,data.draw.msg,"#FF0000");
+			});
 			
 			socket.on('connect', function (data) {
 				if(data && data.connections){
@@ -261,13 +286,19 @@
 	</div>
 	
 	<div id="drawModule" style="display:none">
-		<canvas id="backg" width='500' height='500' style='z-index:0;position:absolute'></canvas>
-		<canvas id="drawLayer" width='500' height='500' style='z-index:10000;position:absolute;top:0px;left:0px'></canvas>
+		<canvas id="backg" width='100' height='100' style='z-index:0;position:absolute'></canvas>
+		<canvas id="drawLayer" width='100' height='100' style='z-index:10000;position:absolute;top:0px;left:0px'></canvas>
 		<input type="button" onclick="eraseAll()" value="ERASE ALL" style='z-index:10004;position:relative'/>
 		<div class="chip" color="#FF0000" style="z-index:10001;width:20px; height:20px;position:relative">&nbsp;</div>
 		<div class="chip" color="#00FF00" width="20px" height="20px" style='z-index:10002;width:20px; height:20px;position:relative'>&nbsp;</div>
 		<div class="chip" color="#0000FF" width="20px" height="20px" style='z-index:10003;width:20px; height:20px;position:relative'>&nbsp;</div>
 	</div>
+    
+    <div id="chat" class="right" style='display:none;z-index:20003;padding:5'>
+        <input type="text" id="msg" value="" style='position:absolute;bottom:0;left:5px'/>
+        <input type="button" onclick="sendMsg()" value="SEND" style='position:absolute;bottom:0;right:5px'/>
+
+    </div>
 	
 	<div id="footer">
 		<p id="users" style="padding-left:5px">Number of connected users: 0</p>
