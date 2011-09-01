@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+ "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>The Drawing Room</title>	
+	<meta name="author" content="John Tubert">
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="http://connect.facebook.net/en_US/all.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/init.js"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="/css/styles.css" />	
+	
+</head>
+<body>
+	<div id="fb-root"></div>
+	<p><fb:login-button autologoutlink="true" perms="email,create_event,user_birthday,status_update,publish_stream"></fb:login-button></p>
+	<div id="login" style ="display:none"></div>
+	
+	<div id="joinModule">
+		<input type="text" id="nickname" value="" onkeypress="onJoin(event)"/>
+		<input type="button" onclick="join()" value="JOIN"/>
+	</div>
+	
+	<div id="drawModule" style="display:none">
+		<canvas id="backg" width='100' height='100' style='z-index:0'></canvas>
+		<canvas id="drawLayer" width='100' height='100' style='z-index:10000'></canvas>
+		<input type="button" onclick="eraseAll()" value="ERASE ALL" style='z-index:10004;position:relative'/>
+		<div class="chip" color="#FF0000" style="z-index:10001">&nbsp;</div>
+		<div class="chip" color="#00FF00" style='z-index:10002'>&nbsp;</div>
+		<div class="chip" color="#0000FF" style='z-index:10003'>&nbsp;</div>
+	</div>
+    
+    <div class="chat">
+        <input type="text" id="msg" value="" onkeypress="onSend(event)" style='position:absolute;bottom:0;left:5px'/>
+        <input type="button" onclick="sendMsg()" value="SEND" style='position:absolute;bottom:0;right:5px'/>
+    </div>
+	
+	<div id="footer">
+		<p id="users" style="padding-left:5px">Number of connected users: 0</p>
+	</div>
+		
+</body>
+</html>

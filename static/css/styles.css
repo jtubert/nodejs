@@ -1,0 +1,59 @@
+body {
+   margin:0;
+   padding:0;
+   height:100%;
+}
+
+.mouse{
+	background-image: url('/images/cursor.png');
+	position: absolute;
+	background-repeat: no-repeat;
+	height: 22px;
+	min-width: 15px;
+}
+
+.nickname{
+	position:relative;
+	background:white;
+	padding:3px;
+	left:16px;
+}
+
+.msg{
+   left:5px; 
+}
+
+.chat{
+	display:none;
+	z-index:20003;
+	background:#CCCCCC;
+    position: absolute;
+    right: 0;
+    width: 200px;
+    height: 100%;
+    top: 0px;
+    text-align: left;
+    padding:0px 10px;
+}
+
+canvas{
+	position:absolute;
+	top:0px;
+	left:0px;
+}
+
+#footer {
+   position:absolute;
+   bottom:0;
+   width:100%;
+   height:40px;   /* Height of the footer */
+   background:#6cf;
+}
+
+.chip{
+	width:20px; 
+	height:20px;
+	position:relative;
+	width:20px;
+	height:20px;
+}
