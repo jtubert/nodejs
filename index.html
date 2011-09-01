@@ -9,7 +9,7 @@
 	<meta name="author" content="John Tubert">
 	<script src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-	<script type="text/javascript" src="stats.js"></script>
+	<script type="text/javascript" src="Stats.js"></script>
 	
 	<style>
 		body {
@@ -62,7 +62,7 @@
 		stats.domElement.style.left = '0px';
 		stats.domElement.style.top = '0px';
 
-		parentElement.appendChild( stats.domElement );
+		$("body").append( stats.domElement );
 
 		setInterval( function () {
 
