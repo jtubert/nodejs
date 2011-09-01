@@ -1,6 +1,13 @@
-//var socket = io.connect('http://localhost:8080/');
-var socket = io.connect('http://thedrawingroom.no.de/');
-//var socket = io.connect('http://nodejs.jtubert.cloud9ide.com/');
+var socket;
+
+if(window.location.host.toString().indexOf("localhost") != -1){
+	socket = io.connect('http://localhost:8080/');
+}else if(window.location.host.toString().indexOf("cloud9ide") != -1){
+	socket = io.connect('http://nodejs.jtubert.cloud9ide.com/');
+}else{
+	socket = io.connect('http://thedrawingroom.no.de/');
+}
+
 var drawLayer;		
 var ctx;		
 var lineColor = "#000000";		
