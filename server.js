@@ -5,10 +5,16 @@ var app = require('express').createServer(),
 	
 app.use(gzippo.staticGzip(__dirname + '/static'));
 
+//FOR CLOUD9 USE
 //app.listen(process.env.C9_PORT, "0.0.0.0");
+
+//FOR LOCALHOST
+//app.listen(8080);
+
+//FOR no.de
 app.listen(80);
 
-
+console.log("*****************"+__dirname);
 
 io.sockets.on('connection', function (socket) {	
 	console.log("connections: "+socket.namespace.manager.server.connections);
