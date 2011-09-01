@@ -41,12 +41,18 @@ window.fbAsyncInit = function() {
      FB.getLoginStatus(function(response) {
          if (response.session) {
              // logged in and connected user, someone you know
-             console.log(response.name);
+             console.log(response);
+			login();
          }
      });
 }; 
 
-
+function login(){
+    FB.api('/me', function(response) {
+        document.getElementById('login').style.display = "block";
+        document.getElementById('login').innerHTML = response.name + " succsessfully logged in!";
+    });
+}
 
 function sendSocketMessage(name,object){
 	//console.log(socket.clients().length);
