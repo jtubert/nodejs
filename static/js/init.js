@@ -17,8 +17,8 @@ var remoteCtxArray = {};
 var cursorsArray = {};
 var zindex = 0;
 
-var canvasW=window.innerWidth;
-var canvasH=window.innerHeight;
+var canvasW=640;
+var canvasH=480;
 
 //socket.socket.sessionid
 
@@ -51,6 +51,7 @@ function login(){
     });
 }
 
+
 function sendSocketMessage(name,object){
 	//console.log(socket.clients().length);
 	socket.emit(name, object);
@@ -74,8 +75,13 @@ function init(){
 	drawLayer.addEventListener('mousedown', onMouseDown, false);		
 	drawLayer.addEventListener('mouseup', onMouseUp, false);
 	
+	
+	
 	$('#nickname').focus();	
 }
+
+
+
 
 hex_to_decimal = function(hex) {
 	return Math.max(0, Math.min(parseInt(hex, 16), 255));
@@ -102,17 +108,6 @@ function onMouseDown(e){
 	sendSocketMessage('down', { x:x,y:y,lc:lineColor});	
 }
 
-function createCanvasObject(nickname,socketID){
-	zindex++;
-	remoteLayerArray[socketID] = $("<canvas style='z-index:" + zindex + "' id='" + socketID + "'></canvas>").appendTo("#drawModule");
-	remoteLayerArray[socketID].nickname = nickname;		
-	var layer = document.getElementById(socketID);
-    remoteCtxArray[socketID] = layer.getContext("2d");	
-
-	cursorsArray[socketID] = $("<div style='position:absolute;z-index:"+(1000+zindex)+"' id='" + socketID + "'><span class='mouse'></span><div class='nickname'>"+nickname+"</div></div>").appendTo("#drawModule");
-
-	//$("#users").html("Number of connected users: "+(zindex+1));
-}
 
 function onMouseDownRemote(x,y,lc,nickname,socketID){
 	if(!remoteLayerArray[socketID]){
@@ -125,7 +120,29 @@ function onMouseDownRemote(x,y,lc,nickname,socketID){
 	remoteCtxArray[socketID].strokeStyle = lc;
 	remoteCtxArray[socketID].beginPath();
 	remoteCtxArray[socketID].moveTo(x,y);
-}	
+}
+
+function onMouseUp(e){
+	drawLayer.removeEventListener('mousemove', onMove,false);
+	sendSocketMessage('mouseup', {});					
+}
+
+function onMouseUpRemote(nickname,socketID){
+	cursorsArray[socketID].hide();
+}
+
+function createCanvasObject(nickname,socketID){
+	zindex++;
+	remoteLayerArray[socketID] = $("<canvas style='z-index:" + zindex + "' id='" + socketID + "'></canvas>").appendTo("#drawModule");
+	remoteLayerArray[socketID].nickname = nickname;		
+	var layer = document.getElementById(socketID);
+    remoteCtxArray[socketID] = layer.getContext("2d");	
+
+	cursorsArray[socketID] = $("<div style='position:absolute;z-index:"+(1000+zindex)+"' id='" + socketID + "'><span class='mouse'></span><div class='nickname'>"+nickname+"</div></div>").appendTo("#drawModule");
+
+	//$("#users").html("Number of connected users: "+(zindex+1));
+}
+	
 
 function erase(){
 	ctx.clearRect(0,0,canvasW,canvasH);	
@@ -143,14 +160,7 @@ function eraseAllRemote(){
 	erase();
 }
 
-function onMouseUp(e){
-	drawLayer.removeEventListener('mousemove', onMove,false);
-	sendSocketMessage('mouseup', {});					
-}
-
-function onMouseUpRemote(nickname,socketID){
-	cursorsArray[socketID].hide();
-}			
+	
 
 function onMove(e) {				
 	var x = e.clientX-drawLayer.offsetLeft;
@@ -205,6 +215,11 @@ function createColorChips(){
 	});
 }
 
+function updateLineColor(color){
+	console.log(color);	
+	lineColor = "#"+color;
+}
+
 function onReturnKeyPress(event,callback){
 	var iAscii; 
      if (event.keyCode) 
@@ -244,7 +259,7 @@ function join(event){
 
 $(document).ready(function(){			
 	init(); 
-	createColorChips();
+	//createColorChips();
 	
 	console.log("onReady");
 	

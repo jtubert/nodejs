@@ -10,7 +10,8 @@
 	<script src="http://connect.facebook.net/en_US/all.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/init.js"></script>
-	<link rel="stylesheet" type="text/css" media="all" href="/css/styles.css" />	
+	<link rel="stylesheet" type="text/css" media="all" href="/css/styles.css"/>
+	<script type="text/javascript" src="/js/JSColor/jscolor.js"></script>	
 	
 </head>
 <body>	
@@ -27,15 +28,23 @@
 		<canvas id="backg" width='100' height='100' style='z-index:0'></canvas>
 		<canvas id="drawLayer" width='100' height='100' style='z-index:10000'></canvas>
 		<input type="button" onclick="eraseAll()" value="ERASE ALL" style='z-index:10004;position:relative'/>
-		<div class="chip" color="#FF0000" style="z-index:10001">&nbsp;</div>
+		
+		<input class="color" onchange="updateLineColor(this.color)"></input>
+		<!--div class="chip" color="#FF0000" style="z-index:10001">&nbsp;</div>
 		<div class="chip" color="#00FF00" style='z-index:10002'>&nbsp;</div>
-		<div class="chip" color="#0000FF" style='z-index:10003'>&nbsp;</div>
+		<div class="chip" color="#0000FF" style='z-index:10003'>&nbsp;</div-->
+	</div>
+	
+	<div class="chatControls">
+		<input type="text" id="msg" value="" onkeypress="onSend(event)" style='position:absolute;bottom:5px;left:5px'/>
+        <input type="button" onclick="sendMsg()" value="SEND" style='position:absolute;bottom:5px;right:5px'/>
 	</div>
     
     <div class="chat">
-        <input type="text" id="msg" value="" onkeypress="onSend(event)" style='position:absolute;bottom:0;left:5px'/>
-        <input type="button" onclick="sendMsg()" value="SEND" style='position:absolute;bottom:0;right:5px'/>
+        
     </div>
+
+	
 	
 	<div id="footer">
 		<p id="users" style="padding-left:5px">Number of connected users: 0</p>
