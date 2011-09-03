@@ -106,6 +106,8 @@ function onMouseDown(e){
 	drawLayer.addEventListener('mousemove', onMove, false);	
 	
 	sendSocketMessage('down', { x:x,y:y,lc:lineColor});	
+	
+	//onMouseDownRemote(x,y,lineColor,"test",12345);
 }
 
 
@@ -134,9 +136,15 @@ function onMouseUpRemote(nickname,socketID){
 function createCanvasObject(nickname,socketID){
 	zindex++;
 	remoteLayerArray[socketID] = $("<canvas  class='canvass' style='z-index:" + zindex + "' id='" + socketID + "'></canvas>").appendTo("#drawModule");
-	remoteLayerArray[socketID].nickname = nickname;		
+	remoteLayerArray[socketID].nickname = nickname;
+	
+	
+			
 	var layer = document.getElementById(socketID);
-    remoteCtxArray[socketID] = layer.getContext("2d");	
+    remoteCtxArray[socketID] = layer.getContext("2d");
+
+	remoteCtxArray[socketID].canvas.width  = canvasW;
+    remoteCtxArray[socketID].canvas.height = canvasH;	
 
 	cursorsArray[socketID] = $("<div style='position:absolute;z-index:"+(1000+zindex)+"' id='" + socketID + "'><span class='mouse'></span><div class='nickname'>"+nickname+"</div></div>").appendTo("#drawModule");
 
@@ -166,7 +174,9 @@ function onMove(e) {
 	ctx.lineTo(x,y);						
 	ctx.stroke();
 	
-	sendSocketMessage('move', {x:x,y:y});							
+	sendSocketMessage('move', {x:x,y:y});
+	
+	//onMoveRemote(x, y,"test",12345);							
 }
 
 function onMoveRemote(x, y,nickname,socketID){			
@@ -190,7 +200,7 @@ function onSend(event){
 }
 
 function updateLineColor(color){
-	//lineColor = "#"+$(".color").val();
+	lineColor = "#"+$(".color").val();
 }
 
 function onReturnKeyPress(event,callback){
