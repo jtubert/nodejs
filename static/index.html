@@ -25,8 +25,8 @@
 	</div>
 	
 	<div id="drawModule" style="display:none">
-		<canvas id="backg" width='100' height='100' style='z-index:0'></canvas>
-		<canvas id="drawLayer" width='100' height='100' style='z-index:10000'></canvas>
+		<canvas class="canvass" id="backg" style='z-index:0'></canvas>
+		<canvas class="canvass" id="drawLayer" style='z-index:10000'></canvas>
 		<input type="button" onclick="eraseAll()" value="ERASE ALL" style='z-index:10004;position:relative'/>
 		<input class="color" onchange="updateLineColor(this.color)" value="Pick line color"></input>
 	</div>

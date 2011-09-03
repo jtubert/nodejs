@@ -17,8 +17,8 @@ var remoteCtxArray = {};
 var cursorsArray = {};
 var zindex = 0;
 
-var canvasW=640;
-var canvasH=480;
+var canvasW=500;
+var canvasH=500;
 
 //socket.socket.sessionid
 
@@ -133,7 +133,7 @@ function onMouseUpRemote(nickname,socketID){
 
 function createCanvasObject(nickname,socketID){
 	zindex++;
-	remoteLayerArray[socketID] = $("<canvas style='z-index:" + zindex + "' id='" + socketID + "'></canvas>").appendTo("#drawModule");
+	remoteLayerArray[socketID] = $("<canvas  class='canvass' style='z-index:" + zindex + "' id='" + socketID + "'></canvas>").appendTo("#drawModule");
 	remoteLayerArray[socketID].nickname = nickname;		
 	var layer = document.getElementById(socketID);
     remoteCtxArray[socketID] = layer.getContext("2d");	
@@ -160,8 +160,6 @@ function eraseAllRemote(){
 	erase();
 }
 
-	
-
 function onMove(e) {				
 	var x = e.clientX-drawLayer.offsetLeft;
 	var y = e.clientY-drawLayer.offsetTop;				
@@ -169,6 +167,13 @@ function onMove(e) {
 	ctx.stroke();
 	
 	sendSocketMessage('move', {x:x,y:y});							
+}
+
+function onMoveRemote(x, y,nickname,socketID){			
+	remoteCtxArray[socketID].lineTo(x,y);						
+	remoteCtxArray[socketID].stroke();
+	cursorsArray[socketID].css("left",x+"px");
+	cursorsArray[socketID].css("top",y+"px");
 }
 
 function addMsg(user,msg,color){
@@ -184,41 +189,8 @@ function onSend(event){
      onReturnKeyPress(event,sendMsg);
 }
 
-function onMoveRemote(x, y,nickname,socketID){			
-	remoteCtxArray[socketID].lineTo(x,y);						
-	remoteCtxArray[socketID].stroke();
-	
-	cursorsArray[socketID].css("left",x+"px");
-	cursorsArray[socketID].css("top",y+"px");
-}
-
-
-function createColorChips(){
-	$(".chip").each(function(){
-	    //console.log("createColorChips: "+$(this).attr("color"));
-		$(this).css("background-color",$(this).attr("color"));
-		$(this).css("border-style","solid");
-		$(this).css("border-width","1px");
-		$(this).css("border-color",$(this).attr("color"));				
-		$(this).show();
-	});			
-	$(".chip").click(function(){
-		var otherContents = $(this).parent().find(".chip").not($(this));		
-		
-		$(this).css("border-color","#000000");
-		
-		otherContents.css("border-color","#DDDDDD");
-				
-		
-		lineColor = $(this).attr("color");
-		
-	});
-}
-
 function updateLineColor(color){
-	
-	lineColor = "#"+$(".color").val();
-	console.log(lineColor);
+	//lineColor = "#"+$(".color").val();
 }
 
 function onReturnKeyPress(event,callback){
