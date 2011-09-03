@@ -23,6 +23,11 @@ body {
    left:5px; 
 }
 
+.color{
+	position:relative;
+	z-index:20010;
+}
+
 .chat{
 	display:none;	
 	background:#CCCCCC;

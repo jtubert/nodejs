@@ -216,8 +216,9 @@ function createColorChips(){
 }
 
 function updateLineColor(color){
-	console.log(color);	
-	lineColor = "#"+color;
+	
+	lineColor = "#"+$(".color").val();
+	console.log(lineColor);
 }
 
 function onReturnKeyPress(event,callback){
