@@ -10,7 +10,8 @@ if(window.location.host.toString().indexOf("localhost") != -1){
 
 var drawLayer;		
 var ctx;		
-var lineColor = "#000000";		
+var lineColor = "#000000";	
+var lineWidth = 3;	
 
 var remoteLayerArray = {};
 var remoteCtxArray = {};
@@ -80,9 +81,6 @@ function init(){
 	$('#nickname').focus();	
 }
 
-
-
-
 hex_to_decimal = function(hex) {
 	return Math.max(0, Math.min(parseInt(hex, 16), 255));
 };
@@ -99,26 +97,28 @@ function drawBackg(){
 function onMouseDown(e){
 	var x = e.clientX-drawLayer.offsetLeft;
 	var y = e.clientY-drawLayer.offsetTop;
-	ctx.lineWidth = 3;
+	ctx.lineWidth = lineWidth;
 	ctx.strokeStyle = lineColor;
 	ctx.beginPath();
 	ctx.moveTo(x,y);
 	drawLayer.addEventListener('mousemove', onMove, false);	
 	
-	sendSocketMessage('down', { x:x,y:y,lc:lineColor});	
+	sendSocketMessage('down', { x:x,y:y,lc:lineColor,lw:lineWidth});	
 	
 	//onMouseDownRemote(x,y,lineColor,"test",12345);
 }
 
 
-function onMouseDownRemote(x,y,lc,nickname,socketID){
+function onMouseDownRemote(x,y,lc,lw,nickname,socketID){
 	if(!remoteLayerArray[socketID]){
 		createCanvasObject(nickname,socketID);
 	}
 	
 	cursorsArray[socketID].show();
 	
-	remoteCtxArray[socketID].lineWidth = 3;
+	console.log(lw);
+	
+	remoteCtxArray[socketID].lineWidth = lw;
 	remoteCtxArray[socketID].strokeStyle = lc;
 	remoteCtxArray[socketID].beginPath();
 	remoteCtxArray[socketID].moveTo(x,y);
@@ -203,6 +203,11 @@ function updateLineColor(color){
 	lineColor = "#"+$(".color").val();
 }
 
+function updateLineWidth(w){
+	lineWidth = w;
+}
+
+
 function onReturnKeyPress(event,callback){
 	var iAscii; 
      if (event.keyCode) 
@@ -248,7 +253,7 @@ $(document).ready(function(){
 	
 	socket.on('down', function (data) {
 		//console.log(data);
-		onMouseDownRemote(data.draw.x, data.draw.y, data.draw.lc,data.nickname,data.socketID);
+		onMouseDownRemote(data.draw.x, data.draw.y, data.draw.lc,data.draw.lw,data.nickname,data.socketID);
 	});
 	
 	socket.on('mouseup', function (data) {

@@ -28,6 +28,11 @@ body {
 	z-index:20010;
 }
 
+#slider{
+	position:relative;
+	z-index:20011;
+}
+
 .chat{
 	display:none;	
 	background:#CCCCCC;
