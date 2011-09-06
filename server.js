@@ -1,3 +1,7 @@
+//npm install socket.io
+//npm install express
+//npm install gzippo
+
 var app = require('express').createServer(), 
 	io = require('socket.io').listen(app), 
 	fs = require('fs'),
@@ -66,7 +70,4 @@ io.sockets.on('connection', function (socket) {
 });
 
 
-//to install
-//npm install socket.io
-//http://socket.io/#how-to-use
 
