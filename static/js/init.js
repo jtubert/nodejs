@@ -5,7 +5,7 @@ if(window.location.host.toString().indexOf("localhost") != -1){
 }else if(window.location.host.toString().indexOf("cloud9ide") != -1){
 	socket = io.connect('http://nodejs.jtubert.cloud9ide.com/');
 }else{
-	socket = io.connect('http://thedrawingroom.no.de/');
+	socket = io.connect('http://thedrawingapp-znikxzww.dotcloud.com/');
 }
 
 var drawLayer;		
