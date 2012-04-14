@@ -17,7 +17,7 @@ if(process.argv[2] == "local" || process.argv[2] == "localhost"){
 	app.listen(process.env.C9_PORT, "0.0.0.0");
 }else{
 	//FOR no.de
-	app.listen(80);
+	app.listen(8080);
 }
 
 //console.log("*****************"+process.argv[2]);
