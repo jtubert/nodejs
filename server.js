@@ -16,7 +16,7 @@ if(process.argv[2] == "local" || process.argv[2] == "localhost"){
 	//FOR CLOUD9 USE
 	app.listen(process.env.C9_PORT, "0.0.0.0");
 }else{
-	//FOR no.de
+	//FOR dotcloud
 	app.listen(8080);
 }
 
