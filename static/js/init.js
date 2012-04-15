@@ -7,7 +7,7 @@ if(window.location.host.toString().indexOf("localhost") != -1){
 }else if(window.location.host.toString().indexOf("thedrawingapp-jtubert") != -1){
 	socket = io.connect('http://thedrawingapp-jtubert.dotcloud.com/');
 }else{
-	socket = io.connect('http://thedrawingapp-znikxzww.dotcloud.com/');
+	socket = io.connect('http://thedrawingapp-jtubertrga.dotcloud.com/');
 }
 
 var drawLayer;		
