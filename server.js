@@ -27,7 +27,7 @@ if(process.argv[2] == "local" || process.argv[2] == "localhost"){
 
 function clientDisconnect(client){
   activeClients -=1;
-  client.broadcast({clients:activeClients})
+  client.broadcast({clients:activeClients});
 }
 
 io.sockets.on('connection', function (socket) {	
@@ -35,7 +35,7 @@ io.sockets.on('connection', function (socket) {
 	//console.log("-----------------length: "+io.sockets.clients().length+" / "+socket.id);
 	
 	activeClients +=1;
-	socket.broadcast({clients:activeClients})
+	socket.broadcast({clients:activeClients});
 	socket.on('disconnect', function(){clientDisconnect(socket)});
 	
 	
