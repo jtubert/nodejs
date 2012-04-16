@@ -118,7 +118,7 @@ function onMouseDownRemote(x,y,lc,lw,nickname,socketID){
 	
 	cursorsArray[socketID].show();
 	
-	console.log(lw);
+	//console.log(lw);
 	
 	remoteCtxArray[socketID].lineWidth = lw;
 	remoteCtxArray[socketID].strokeStyle = lc;
@@ -251,7 +251,7 @@ $(document).ready(function(){
 	init(); 
 	//createColorChips();
 	
-	console.log("onReady");
+	//console.log("onReady");
 	
 	socket.on('down', function (data) {
 		//console.log(data);
@@ -277,7 +277,7 @@ $(document).ready(function(){
 	});
 	
 	socket.on('connect', function (data) {
-		console.log("connect!!!!!!!",data);
+		console.log("connect!!!!!!!",data,data.nickname);
 		if(data && data.connections){
 			$("#users").html("Number of connected users: "+data.connections);
 		}				
@@ -288,13 +288,5 @@ $(document).ready(function(){
 		if(data && data.connections){
 			$("#users").html("Number of connected users: "+data.connections);
 		}				
-	});
-	
-	socket.on('connection', function (data) {
-		console.log("connection!!!!!!!",data);
-		if(data && data.connections){
-			$("#users").html("Number of connected users: "+data.connections);
-		}				
-	});
-	
+	});	
 });
