@@ -277,6 +277,7 @@ $(document).ready(function(){
 	});
 	
 	socket.on('connect', function (data) {
+		console.log("connect!!!!!!!");
 		if(data && data.connections){
 			$("#users").html("Number of connected users: "+data.connections);
 		}				
