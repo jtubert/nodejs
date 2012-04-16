@@ -9,6 +9,8 @@ var app = require('express').createServer(),
 	
 app.use(gzippo.staticGzip(__dirname + '/static'));
 
+var users = [];
+
 if(process.argv[2] == "local" || process.argv[2] == "localhost"){
 	//FOR LOCALHOST
 	app.listen(8080);
@@ -26,15 +28,15 @@ io.sockets.on('connection', function (socket) {
 	console.log("connections: "+socket.namespace.manager.server.connections+" / "+io.sockets.clients().length);
 	//console.log("-----------------length: "+io.sockets.clients().length+" / "+socket.id);
 	
-	socket.broadcast.emit('connect',{connections: io.sockets.clients().length});
+	//socket.broadcast.emit('connect',{connections: io.sockets.clients().length});
 	
 	socket.on('connect',function(data){
-		socket.broadcast.emit('connect', {connections: io.sockets.clients().length});
+		//socket.broadcast.emit('connect', {connections: io.sockets.clients().length});
 		
 	});
 	
 	socket.on('connection',function(data){
-		socket.broadcast.emit('connect', {connections: socket.namespace.manager.server.connections});
+		//socket.broadcast.emit('connect', {connections: socket.namespace.manager.server.connections});
 		
 	});
     
@@ -45,7 +47,8 @@ io.sockets.on('connection', function (socket) {
 	socket.on('setName', function (name) {
 		
 	    socket.set('nickname', name, function () {
-	      socket.broadcast.emit('connect', {connections: socket.namespace.manager.server.connections});
+			users.push(name);
+			socket.broadcast.emit('connect', {connections: users.length});
 	    });
 	});
 	
@@ -63,7 +66,7 @@ io.sockets.on('connection', function (socket) {
 	
 	socket.on('mouseup', function (data) {
 		socket.get('nickname', function (err, name) {
-			socket.broadcast.emit('mouseup', { connections: socket.namespace.manager.server.connections,draw: data,nickname:name,socketID:socket.id });
+			socket.broadcast.emit('mouseup', { draw: data,nickname:name,socketID:socket.id });
 		});
 	});
 	
