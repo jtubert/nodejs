@@ -253,6 +253,11 @@ $(document).ready(function(){
 	
 	//console.log("onReady");
 	
+	socket.on('message', function(msg){
+		console.log(msg);
+	});
+	
+	
 	socket.on('down', function (data) {
 		//console.log(data);
 		onMouseDownRemote(data.draw.x, data.draw.y, data.draw.lc,data.draw.lw,data.nickname,data.socketID);

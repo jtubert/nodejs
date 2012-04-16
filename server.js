@@ -10,6 +10,7 @@ var app = require('express').createServer(),
 app.use(gzippo.staticGzip(__dirname + '/static'));
 
 var users = [];
+var activeClients = 0;
 
 if(process.argv[2] == "local" || process.argv[2] == "localhost"){
 	//FOR LOCALHOST
@@ -24,9 +25,18 @@ if(process.argv[2] == "local" || process.argv[2] == "localhost"){
 
 //console.log("*****************"+process.argv[2]);
 
+function clientDisconnect(client){
+  activeClients -=1;
+  client.broadcast({clients:activeClients})
+}
+
 io.sockets.on('connection', function (socket) {	
 	//console.log("connections: "+socket.namespace.manager.server.connections+" / "+io.sockets.clients().length);
 	//console.log("-----------------length: "+io.sockets.clients().length+" / "+socket.id);
+	
+	activeClients +=1;
+	socket.broadcast({clients:activeClients})
+	socket.on('disconnect', function(){clientDisconnect(socket)});
 	
 	
 	
