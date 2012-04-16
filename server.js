@@ -28,15 +28,15 @@ io.sockets.on('connection', function (socket) {
 	//console.log("connections: "+socket.namespace.manager.server.connections+" / "+io.sockets.clients().length);
 	//console.log("-----------------length: "+io.sockets.clients().length+" / "+socket.id);
 	
-	socket.broadcast.emit('x',{connections: users.length});
+	socket.emit('x',{connections: users.length});
 	
 	socket.on('connect',function(data){
-		socket.broadcast.emit('connect', {connections: users.length});
+		socket.emit('connect', {connections: users.length});
 		
 	});
 	
 	socket.on('connection',function(data){
-		socket.broadcast.emit('connection', {connections: users.length});
+		socket.emit('connection', {connections: users.length});
 		
 	});
     
@@ -47,7 +47,7 @@ io.sockets.on('connection', function (socket) {
 	socket.on('setName', function (name) {		
 	    socket.set('nickname', name, function () {
 			users.push(name);
-			socket.broadcast.emit('connect', {nickname:name,connections: users.length});
+			socket.emit('connect', {nickname:name,connections: users.length});
 	    });
 	});
 	
