@@ -4,7 +4,7 @@ if(window.location.host.toString().indexOf("localhost") != -1){
 	socket = io.connect('http://localhost:8080/');
 }else if(window.location.host.toString().indexOf("cloud9ide") != -1){
 	socket = io.connect('http://nodejs.jtubert.cloud9ide.com/');
-}else if(window.location.host.toString().indexOf("thedrawingapp-jtubert") != -1){
+}else if(window.location.host.toString().indexOf("thedrawingapp-jtubert.dotcloud") != -1){
 	socket = io.connect('http://thedrawingapp-jtubert.dotcloud.com/');
 }else{
 	socket = io.connect('http://thedrawingapp-jtubertrga.dotcloud.com/');
