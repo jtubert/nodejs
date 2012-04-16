@@ -260,11 +260,7 @@ $(document).ready(function(){
 	
 	socket.on('mouseup', function (data) {
 		//console.log(data);
-		onMouseUpRemote(data.nickname,data.socketID);
-		
-		if(data && data.connections){
-			$("#users").html("Number of connected users: "+data.connections);
-		}
+		onMouseUpRemote(data.nickname,data.socketID);	
 	});
 	
 	socket.on('move', function (data) {
@@ -273,9 +269,7 @@ $(document).ready(function(){
 	});
 	
 	socket.on('erase', function (data) {
-		eraseAllRemote();
-		
-		
+		eraseAllRemote();	
 	});
     
     socket.on('sendMsg', function (data) {
@@ -284,6 +278,13 @@ $(document).ready(function(){
 	
 	socket.on('connect', function (data) {
 		console.log("connect!!!!!!!",data);
+		if(data && data.connections){
+			$("#users").html("Number of connected users: "+data.connections);
+		}				
+	});
+	
+	socket.on('disconnected', function (data) {
+		console.log("disconnected!!!!!!!",data);
 		if(data && data.connections){
 			$("#users").html("Number of connected users: "+data.connections);
 		}				

@@ -25,7 +25,7 @@ if(process.argv[2] == "local" || process.argv[2] == "localhost"){
 //console.log("*****************"+process.argv[2]);
 
 io.sockets.on('connection', function (socket) {	
-	console.log("connections: "+socket.namespace.manager.server.connections+" / "+io.sockets.clients().length);
+	//console.log("connections: "+socket.namespace.manager.server.connections+" / "+io.sockets.clients().length);
 	//console.log("-----------------length: "+io.sockets.clients().length+" / "+socket.id);
 	
 	//socket.broadcast.emit('connect',{connections: io.sockets.clients().length});
@@ -41,11 +41,10 @@ io.sockets.on('connection', function (socket) {
 	});
     
     socket.on('disconnect', function () {
-        socket.emit('user disconnected');
+        socket.broadcast.emit('disconnect', {connections: users.length});
     });
 	
-	socket.on('setName', function (name) {
-		
+	socket.on('setName', function (name) {		
 	    socket.set('nickname', name, function () {
 			users.push(name);
 			socket.broadcast.emit('connect', {connections: users.length});
