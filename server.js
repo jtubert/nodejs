@@ -28,7 +28,7 @@ io.sockets.on('connection', function (socket) {
 	//console.log("connections: "+socket.namespace.manager.server.connections+" / "+io.sockets.clients().length);
 	//console.log("-----------------length: "+io.sockets.clients().length+" / "+socket.id);
 	
-	socket.broadcast.emit('connect',{connections: users.length});
+	//socket.broadcast.emit('connect',{connections: users.length});
 	
 	socket.on('connect',function(data){
 		socket.broadcast.emit('connect', {connections: users.length});
