@@ -261,6 +261,10 @@ $(document).ready(function(){
 	socket.on('mouseup', function (data) {
 		//console.log(data);
 		onMouseUpRemote(data.nickname,data.socketID);
+		
+		if(data && data.connections){
+			$("#users").html("Number of connected users: "+data.connections);
+		}
 	});
 	
 	socket.on('move', function (data) {
@@ -271,9 +275,7 @@ $(document).ready(function(){
 	socket.on('erase', function (data) {
 		eraseAllRemote();
 		
-		if(data && data.connections){
-			$("#users").html("Number of connected users: "+data.connections);
-		}
+		
 	});
     
     socket.on('sendMsg', function (data) {

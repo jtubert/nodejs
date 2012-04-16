@@ -40,7 +40,7 @@ io.sockets.on('connection', function (socket) {
 	socket.on('setName', function (name) {
 		
 	    socket.set('nickname', name, function () {
-	      socket.broadcast.emit('connect', {connections: io.sockets.clients().length});
+	      socket.broadcast.emit('connect', {connections: socket.namespace.manager.server.connections});
 	    });
 	});
 	
@@ -58,13 +58,13 @@ io.sockets.on('connection', function (socket) {
 	
 	socket.on('mouseup', function (data) {
 		socket.get('nickname', function (err, name) {
-			socket.broadcast.emit('mouseup', { draw: data,nickname:name,socketID:socket.id });
+			socket.broadcast.emit('mouseup', { connections: socket.namespace.manager.server.connections,draw: data,nickname:name,socketID:socket.id });
 		});
 	});
 	
 	socket.on('erase', function (data) {
 		socket.get('nickname', function (err, name) {
-			socket.broadcast.emit('erase', { connections: socket.namespace.manager.server.connections,nickname:name,socketID:socket.id });
+			socket.broadcast.emit('erase', { nickname:name,socketID:socket.id });
 		});
 	});
     
