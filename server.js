@@ -34,7 +34,7 @@ io.sockets.on('connection', function (socket) {
 	});
 	
 	socket.on('connection',function(data){
-		socket.broadcast.emit('connection', {connections: io.sockets.clients().length});
+		socket.broadcast.emit('connect', {connections: socket.namespace.manager.server.connections});
 		
 	});
     
