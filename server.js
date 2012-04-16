@@ -41,13 +41,13 @@ io.sockets.on('connection', function (socket) {
 	});
     
     socket.on('disconnect', function () {
-        socket.broadcast.emit('disconnect', {connections: users.length});
+        //socket.broadcast.emit('disconnect', {connections: users.length});
     });
 	
 	socket.on('setName', function (name) {		
 	    socket.set('nickname', name, function () {
 			users.push(name);
-			socket.broadcast.emit('connect', {nickname:name,connections: users.length});
+			//socket.broadcast.emit('connect', {nickname:name,connections: users.length});
 	    });
 	});
 	
