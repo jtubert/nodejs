@@ -26,7 +26,12 @@ io.sockets.on('connection', function (socket) {
 	console.log("connections: "+socket.namespace.manager.server.connections);
 	//console.log("-----------------length: "+io.sockets.clients().length+" / "+socket.id);
 	
-	socket.emit('connect',{connections: io.sockets.clients().length});
+	//socket.emit('connect',{connections: io.sockets.clients().length});
+	
+	socket.on('connect',function(data){
+		socket.emit('connect', {connections: io.sockets.clients().length});
+		
+	});
     
     socket.on('disconnect', function () {
         socket.emit('user disconnected');
