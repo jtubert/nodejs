@@ -38,9 +38,9 @@ io.sockets.on('connection', function (socket) {
     });
 	
 	socket.on('setName', function (name) {
-		socket.broadcast.emit('connect', {connections: io.sockets.clients().length});
+		
 	    socket.set('nickname', name, function () {
-	      
+	      socket.broadcast.emit('connect', {connections: io.sockets.clients().length});
 	    });
 	});
 	
