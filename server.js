@@ -42,8 +42,8 @@ io.sockets.on('connection', function (socket) {
 	
 	
 	socket.on('connect',function(data){
-		socket.broadcast.emit('connect', {connections: io.sockets.clients().length,connections2: socket.namespace.manager.server.connections,connections3: users.length});
-		socket.emit('connect2', {connections: io.sockets.clients().length,connections2: socket.namespace.manager.server.connections,connections3: users.length});
+		socket.broadcast.emit('connect', {connections: users.length});
+		socket.emit('connect2', {connections: users.length});
 		
 	});	
 	
