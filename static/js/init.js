@@ -283,9 +283,19 @@ $(document).ready(function(){
 		}				
 	});
 	
+	socket.on('connection', function (data) {
+		console.log("connection#######",data);					
+	});
+	
+	socket.on('x', function (data) {
+		console.log("xxxxxx",data);					
+	});
+	
+	
+	
 	socket.on('disconnected', function (data) {
 		
-		console.log("disconnected!!!!!!!",data);
+		console.log("disconnected!-!-!-!-!-!-!",data);
 		if(data && data.connections){
 			$("#users").html("Number of connected users: "+data.connections);
 		}	
