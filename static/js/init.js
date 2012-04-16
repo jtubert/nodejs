@@ -284,7 +284,10 @@ $(document).ready(function(){
 	});
 	
 	socket.on('connect2', function (data) {
-		console.log("connect2",data);				
+		console.log("connect2",data);
+		if(data && data.connections){
+			$("#users").html("Number of connected users: "+data.connections);
+		}				
 	});
 	
 	
