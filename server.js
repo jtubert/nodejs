@@ -31,12 +31,12 @@ io.sockets.on('connection', function (socket) {
 	//socket.broadcast.emit('connect',{connections: io.sockets.clients().length});
 	
 	socket.on('connect',function(data){
-		//socket.broadcast.emit('connect', {connections: io.sockets.clients().length});
+		socket.broadcast.emit('connect', {connections: users.length});
 		
 	});
 	
 	socket.on('connection',function(data){
-		socket.broadcast.emit('connect', {connections: users.length});
+		//socket.broadcast.emit('connect', {connections: users.length});
 		
 	});
     
