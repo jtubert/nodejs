@@ -58,7 +58,7 @@ io.sockets.on('connection', function (socket) {
 	
 	socket.on('mouseup', function (data) {
 		socket.get('nickname', function (err, name) {
-			socket.broadcast.emit('mouseup', { connections: io.sockets.clients().length,draw: data,nickname:name,socketID:socket.id });
+			socket.broadcast.emit('mouseup', { draw: data,nickname:name,socketID:socket.id });
 		});
 	});
 	
