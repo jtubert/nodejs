@@ -283,6 +283,10 @@ $(document).ready(function(){
 		}				
 	});
 	
+	socket.on('connect2', function (data) {
+		console.log("connect2",data);				
+	});
+	
 	
 	socket.on('disconnected', function (data) {
 		
