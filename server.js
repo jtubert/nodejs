@@ -36,18 +36,18 @@ io.sockets.on('connection', function (socket) {
 	});
 	
 	socket.on('connection',function(data){
-		//socket.broadcast.emit('connect', {connections: socket.namespace.manager.server.connections});
+		socket.broadcast.emit('connect', {connections: users.length});
 		
 	});
     
     socket.on('disconnect', function () {
-        //socket.broadcast.emit('disconnect', {connections: users.length});
+        socket.broadcast.emit('disconnect', {connections: users.length});
     });
 	
 	socket.on('setName', function (name) {		
 	    socket.set('nickname', name, function () {
 			users.push(name);
-			//socket.broadcast.emit('connect', {nickname:name,connections: users.length});
+			socket.broadcast.emit('connect', {nickname:name,connections: users.length});
 	    });
 	});
 	
