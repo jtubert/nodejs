@@ -32,6 +32,11 @@ io.sockets.on('connection', function (socket) {
 		socket.broadcast.emit('connect', {connections: io.sockets.clients().length});
 		
 	});
+	
+	socket.on('connection',function(data){
+		socket.broadcast.emit('connection', {connections: io.sockets.clients().length});
+		
+	});
     
     socket.on('disconnect', function () {
         socket.emit('user disconnected');

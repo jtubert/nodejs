@@ -288,4 +288,12 @@ $(document).ready(function(){
 			$("#users").html("Number of connected users: "+data.connections);
 		}				
 	});
+	
+	socket.on('connection', function (data) {
+		console.log("connection!!!!!!!",data);
+		if(data && data.connections){
+			$("#users").html("Number of connected users: "+data.connections);
+		}				
+	});
+	
 });
