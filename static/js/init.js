@@ -283,15 +283,6 @@ $(document).ready(function(){
 		}				
 	});
 	
-	socket.on('connection', function (data) {
-		console.log("connection#######",data);					
-	});
-	
-	socket.on('x', function (data) {
-		console.log("xxxxxx",data);					
-	});
-	
-	
 	
 	socket.on('disconnected', function (data) {
 		
