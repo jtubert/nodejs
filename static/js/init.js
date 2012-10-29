@@ -6,6 +6,8 @@ if(window.location.host.toString().indexOf("localhost") != -1){
 	socket = io.connect('http://nodejs.jtubert.cloud9ide.com/');
 }else if(window.location.host.toString().indexOf("thedrawingapp-jtubert.dotcloud") != -1){
 	socket = io.connect('http://thedrawingapp-jtubert.dotcloud.com/');
+}else if(window.location.host.toString().indexOf("http://jtubert.aws.af.cm/") != -1){
+	socket = io.connect('http://jtubert.aws.af.cm/');
 }else{
 	socket = io.connect('http://thedrawingapp-jtubertrga.dotcloud.com/');
 }
@@ -22,6 +24,8 @@ var zindex = 0;
 
 var canvasW=500;
 var canvasH=500;
+
+var IsiPhoneOS;
 
 //socket.socket.sessionid
 
@@ -61,6 +65,12 @@ function sendSocketMessage(name,object){
 }
 
 function init(){
+	var IsiPhone = navigator.userAgent.indexOf("iPhone") !== -1;
+    var IsiPod = navigator.userAgent.indexOf("iPod") !== -1;
+    var IsiPad = navigator.userAgent.indexOf("iPad") !== -1;
+    IsiPhoneOS = IsiPhone || IsiPad || IsiPod;
+	
+	
 	drawLayer = document.getElementById('drawLayer');		
 	ctx = drawLayer.getContext('2d');
     ctx.canvas.width  = canvasW;
@@ -78,10 +88,42 @@ function init(){
 	drawLayer.addEventListener('mousedown', onMouseDown, false);		
 	drawLayer.addEventListener('mouseup', onMouseUp, false);
 	
+	if(IsiPhoneOS){
+		document.addEventListener('touchstart', onMobileSart, false);
+		document.addEventListener('touchend', onMobileEnd, false);
+		//$(document).bind('touchstart', self.onMobileSart);	
+		//$(document).bind('touchend', self.onMobileEnd);
+	}
 	
 	
 	$('#nickname').focus();	
 }
+
+function onMobileSart(e) {
+    //alert("onMobileSart: "+e.touches);
+	if (e.touches.length === 1) { // Only deal with one finger
+        var touch = e.touches[0]; // Get the information for finger #1
+        var node = touch.target; // Find the node the drag started from
+        
+		//alert(node);
+
+        onMouseDown(touch);
+    }
+};
+
+function onMobileEnd(e) {
+    if (e.changedTouches.length === 1) {
+        onMouseUp(e.changedTouches[0]);
+    }
+};
+
+function onMobileMove(e) {
+    if (e.touches.length === 1) { // Only deal with one finger
+    	onMove(e.changedTouches[0]);
+    }
+};
+
+
 
 hex_to_decimal = function(hex) {
 	return Math.max(0, Math.min(parseInt(hex, 16), 255));
@@ -97,13 +139,22 @@ function drawBackg(){
 	backgctx.fillRect(0,0,canvasW,canvasH);				
 }			
 function onMouseDown(e){
-	var x = e.clientX-drawLayer.offsetLeft;
-	var y = e.clientY-drawLayer.offsetTop;
+	var x = e.clientX;//-drawLayer.offsetLeft;
+	var y = e.clientY;//-drawLayer.offsetTop;
+	
+	if(IsiPhoneOS){
+		x = e.pageX;
+		y = e.pageY;
+	}
+	
+	
 	ctx.lineWidth = lineWidth;
 	ctx.strokeStyle = lineColor;
 	ctx.beginPath();
 	ctx.moveTo(x,y);
-	drawLayer.addEventListener('mousemove', onMove, false);	
+	drawLayer.addEventListener('mousemove', onMove, false);
+	
+	document.addEventListener('touchmove', onMobileMove, false);	
 	
 	sendSocketMessage('down', { x:x,y:y,lc:lineColor,lw:lineWidth});	
 	
@@ -128,6 +179,7 @@ function onMouseDownRemote(x,y,lc,lw,nickname,socketID){
 
 function onMouseUp(e){
 	drawLayer.removeEventListener('mousemove', onMove,false);
+	document.removeEventListener('touchmove', onMobileMove, false);
 	sendSocketMessage('mouseup', {});					
 }
 

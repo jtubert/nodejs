@@ -2,12 +2,20 @@
 //npm install express
 //npm install gzippo
 
-var app = require('express').createServer(), 
-	io = require('socket.io').listen(app), 
-	fs = require('fs'),
-	gzippo = require('gzippo');
+//var app = require('express').createServer(), 
+
+var express = require('express');
+var app = express.createServer();
+
+var io = require('socket.io').listen(app), 
+	fs = require('fs');
+
+
 	
-app.use(gzippo.staticGzip(__dirname + '/static'));
+//gzippo = require('gzippo')	
+//app.use(gzippo.staticGzip(__dirname + '/static'));
+
+app.use(express.static(__dirname + '/static'));
 
 var users = [];
 //var activeClients = 0;
@@ -20,8 +28,11 @@ if(process.argv[2] == "local" || process.argv[2] == "localhost"){
 	app.listen(process.env.C9_PORT, "0.0.0.0");
 }else{
 	//FOR dotcloud
-	app.listen(8080);
+	//app.listen(8080);
+	app.listen(process.env.VMC_APP_PORT || 1337, null);
 }
+
+
 
 //console.log("*****************"+process.argv[2]);
 /*

@@ -6,7 +6,6 @@
 	},
 	"dependencies": {
 		"socket.io" : ">= 0.8",
-		"express" : "<= 2.0.0",
-		"gzippo" : "= 0.0.5"
+		"express" : "<= 2.0.0"
 	}
 }
